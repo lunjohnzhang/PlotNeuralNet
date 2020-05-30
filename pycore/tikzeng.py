@@ -6,6 +6,7 @@ def to_head( projectpath ):
     return r"""
 \documentclass[border=8pt, multi, tikz]{standalone} 
 \usepackage{import}
+\usepackage{}
 \subimport{"""+ pathlayers + r"""}{init}
 \usetikzlibrary{positioning}
 \usetikzlibrary{3d} %for including external image 
@@ -39,13 +40,18 @@ def to_input( pathfile, to='(-3,0,0)', width=8, height=8, name="temp" ):
 \node[canvas is zy plane at x=0] (""" + name + """) at """+ to +""" {\includegraphics[width="""+ str(width)+"cm"+""",height="""+ str(height)+"cm"+"""]{"""+ pathfile +"""}};
 """
 
+def to_out( pathfile, offset="1.5", to='(-3,0,0)', width=8, height=8, name="temp" ):
+    return r"""
+\node[canvas is zy plane at x={"""+ offset +"""}] (""" + name + """) at """+ to +""" {\includegraphics[width="""+ str(width)+"cm"+""",height="""+ str(height)+"cm"+"""]{"""+ pathfile +"""}};
+"""
+
 # Conv
 def to_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
     return r"""
 \pic[shift={"""+ offset +"""}] at """+ to +""" 
     {Box={
         name=""" + name +""",
-        caption="""+ caption +r""",
+        caption=\makebox[0pt]{\shortstack[c]{"""+ caption +"""}},
         xlabel={{"""+ str(n_filer) +""", }},
         zlabel="""+ str(s_filer) +""",
         fill=\ConvColor,
@@ -75,6 +81,24 @@ def to_ConvConvRelu( name, s_filer=256, n_filer=(64,64), offset="(0,0,0)", to="(
     };
 """
 
+
+# Conv
+def to_ConvBNReLU( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
+    return r"""
+\pic[shift={"""+ offset +"""}] at """+ to +""" 
+    {RightBandedBox={
+        name="""+ name +""",
+        caption=\makebox[0pt]{\shortstack[c]{"""+ caption +"""}},
+        xlabel={{"""+ str(n_filer) +""", }},
+        zlabel="""+ str(s_filer) +""",
+        fill=\ConvColor,
+        bandfill=\ConvReluColor,
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
 
 
 # Pool
@@ -161,6 +185,23 @@ def to_SoftMax( name, s_filer=10, offset="(0,0,0)", to="(0,0,0)", width=1.5, hei
         width="""+ str(width) +""",
         depth="""+ str(depth) +"""
         }
+    };
+"""
+
+# FullConnect
+def to_FullConnect( name, s_filer=10, n_filer=1, offset="(0,0,0)", to="(0,0,0)", width=1.5, height=3, depth=25, opacity=0.8, caption=" " ):
+    return r"""
+\pic[shift={"""+ offset +"""}] at """+ to +""" 
+    {Box={
+        name="""+ name +""",
+	caption=\makebox[0pt]{\shortstack[c]{"""+ caption +"""}},
+	xlabel={{"""+ str(n_filer) +""",""}},
+	zlabel="""+ str(s_filer) +""",
+	fill=\FcColor,
+	height="""+ str(height) +""",
+        width="""+ str(width) +""",
+	depth="""+ str(depth) +"""
+	}
     };
 """
 
