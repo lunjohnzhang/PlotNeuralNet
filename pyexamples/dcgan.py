@@ -20,7 +20,7 @@ arch = [
     to_ConvBNReLU("conv4", 32, 8, offset="(2,0,0)", to="(conv3-east)", height=20, depth=20, width=2, caption="Conv Transpose 4 \\\\ (ReLU)"),
     to_connection("conv3", "conv4"),
     to_out(pathfile="zelda_out.png", name="output", offset="2.5", to="(conv4-east)", width=5, height=5),
-    to_ConvBNReLU("conv5", 32, 8, offset="(5,0,0)", to="(conv4-east)", height=20, depth=20, width=2, caption=""),
+    to_Conv("conv5", 32, 8, offset="(5,0,0)", to="(conv4-east)", height=20, depth=20, width=2, caption=""),
     to_ConvBNReLU("conv6", 16, 64, offset="(2, 0, 0)", to="(conv5-east)", height=16, depth=16, width=8, caption="Conv 1 \\\\ (Leaky ReLU)"),
     to_connection("conv5", "conv6"),
     to_ConvBNReLU("conv7", 8, 128, offset="(1.5, 0, 0)", to="(conv6-east)", height=12, depth=12, width=12, caption="Conv 2 \\\\ (BN, ReLU)"),
