@@ -1,3 +1,6 @@
+pyexamples/**/*.pdf
+pyexamples/**/*.png
+
 *.aux
 *.pyc
 *.log
